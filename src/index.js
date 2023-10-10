@@ -1,5 +1,7 @@
 const express = require('express');
 const rotas = require('./rotas');
+const knex = require('./conexao');
+
 
 const app = express();
 
