@@ -1,5 +1,5 @@
 const express = require("express")
-const { listarCategorias } = require('./controladores/categoriasControl')
+const { listarCategorias } = require("../controladores/categoriasControl")
 
 const rotas = express()
 
