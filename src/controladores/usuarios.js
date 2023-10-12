@@ -1,4 +1,4 @@
-const pool = require("../conexao")
+const knex = require("../conexao")
 const bcrypt = require("bcrypt")
 const { errorCampo, emailExiste, erroServidor } = require("../errors")
 
@@ -13,14 +13,21 @@ const cadastrarUsuario = async (req, res) => {
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
         //novo usuário no banco
-        const novoUsuario = await pool.query(
-            "INSERT INTO usuarios (nome, email, senha) VALUES ($1, $2, $3) RETURNING *",
-            [nome, email, senhaCriptografada]
-        );
+        const novoUsuario = await knex('usuarios')
+        .insert({
+            nome,
+            email,
+            senha: senhaCriptografada,
+        })
+        .returning(['nome', 'email']);
 
-        // Remover o campo senha
-        const { senha: _, ...usuario } = novoUsuario.rows[0];
-        return res.status(201).json(usuario);
+        
+        if (novoUsuario && novoUsuario.length > 0) {//se o novo usuário for criado
+            const { senha: _, ...usuario } = novoUsuario[0];//retorna o usuário sem a senha
+            return res.status(201).json(usuario);
+        } else {
+            return res.status(500).json({ mensagem: erroServidor });
+        }
     } catch (error) {
         if (error.message === 'duplicate key value violates unique constraint "usuarios_email_key"') {
             return res.status(400).json({ mensagem: emailExiste });
