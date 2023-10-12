@@ -3,9 +3,10 @@ const { listarCategorias } = require('./controladores/categorias')
 
 
 
+
 const rotas = express()
 
-rotas.get('/categorias', listarCategorias)
+rotas.get('/categoria', listarCategorias)
 
 
 
