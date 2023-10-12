@@ -9,7 +9,13 @@ const cadastrarUsuario = async (req, res) => {
         return res.status(400).json({ mensagem: errorCampo });
     }
 
-    try {
+     try {
+
+        const emailRegex = /\S+@\S+\.\S+/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ mensagem: 'O campo email deve ser preenchido com um email válido' });
+        }
+        
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
         //novo usuário no banco
@@ -29,13 +35,11 @@ const cadastrarUsuario = async (req, res) => {
             return res.status(500).json({ mensagem: erroServidor });
         }
     } catch (error) {
-        if (error.message === 'duplicate key value violates unique constraint "usuarios_email_key"') {
+        if (error.message === 'insert into "usuarios" ("email", "nome", "senha") values ($1, $2, $3) returning "nome", "email" - duplicate key value violates unique constraint "usuarios_email_key"') {
             return res.status(400).json({ mensagem: emailExiste });
         }
-        return res.status(500).json({ mensagem: erroServidor });
+               return res.status(500).json({ mensagem: erroServidor });
     }
-
-
 }
 
 module.exports = {
