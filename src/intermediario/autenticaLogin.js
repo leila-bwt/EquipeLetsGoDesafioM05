@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const pool = require("../conexao");
+const knex = require("../conexao");
 const senhaJwt = require("../senhaJwt");
 
 const autenticaLogin = async (req, res, next) => {
@@ -14,7 +14,10 @@ const autenticaLogin = async (req, res, next) => {
   try {
     const { id } = jwt.verify(token, senhaJwt);
 
-    const { rows, rowCount } = await pool.query('SELECT * FROM usuarios WHERE id = $1', [id]);
+    const { rows, rowCount } = await knex
+      .select('*')
+      .from('usuarios')
+      .where({ id });
 
     if (rowCount === 0) {
       return res.status(401).json({ mensagem: "Não autorizado" });
@@ -28,7 +31,6 @@ const autenticaLogin = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({ mensagem: "Não autorizado" });
   }
-
 }
 
 module.exports = autenticaLogin;
