@@ -84,7 +84,44 @@ const login = async (req, res) => {
 };
 
 
+const editarUsuario = async (req, res) => {
+    const { nome, email, senha } = req.body;
+
+   if(!nome && !email && !senha) {
+        return res.status(400).json({mensagem: errorCampo})
+}
+
+    try {
+
+        const buscarUsuario = await knex.select('*') .from('usuarios').where('email', email).whereNot('id', 'req.usuario.id').first();
+
+        if (!buscarUsuario) {
+            return res.status(401).json({mensagem: emailExiste});
+        };
+
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+        await knex('usuarios')
+  .where('id', req.usuario.id)
+  .update({
+    nome: nome,
+    email: email,
+    senha: senhaCriptografada
+  });
+
+        return res.status(204).send();
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(400).json({ mensagem: erroServidor })
+    };
+};
+
+module.exports = { editarUsuario };
+
+
 module.exports = {
     cadastrarUsuario,
-    login
+    login,
+    editarUsuario
 }
