@@ -27,4 +27,13 @@ create table
 
 INSERT INTO
     categorias (descricao)
-VALUES ('Alimentação'), ('Assinaturas e Serviços'), ('Casa'), ('Mercado'), ('Cuidados Pessoais'), ('Educação'), ('Família'), ('Lazer'), ('Pets'), ('Presentes'), ('Roupas'), ('Saúde'), ('Transporte'), ('Salário'),
+VALUES 
+('Informatica'),
+('Celulares'),
+('Beleza e Perfumaria'),
+('Mercado'),
+('Livros e Papelaria'),
+('Brinquedos'),
+('Moda'),
+('Bebê'),
+('Games'),
