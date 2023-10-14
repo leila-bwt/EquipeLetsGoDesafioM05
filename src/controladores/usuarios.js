@@ -43,7 +43,22 @@ const cadastrarUsuario = async (req, res) => {
                return res.status(500).json({ mensagem: erroServidor });
     }
 }
-
+const perfilUsuario =async(req, res)=>{
+    const {id}=req.params
+ 
+    try {
+         const usuario = await knex('usuarios').where({id}).first();
+         
+       if(!usuario){
+          return res.status(404).json("Usuário não encontrado")
+       }
+ 
+       return res.status(201).json(usuario)
+ 
+     } catch (error) {
+         return res.status(500).json({ mensagem: error.message })
+     }
+ }
 const login = async (req, res) => {
     const { email, senha } = req.body;
     try {
@@ -122,4 +137,5 @@ module.exports = {
     cadastrarUsuario,
     login,
     editarUsuario
+
 }
