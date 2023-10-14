@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const knex = require("../conexao");
 const senhaJwt = require("../senhaJwt");
+const { naoAutorizado } = require("../erro");
 
 const autenticaLogin = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).json({ mensagem: "Não autorizado" });
+    return res.status(401).json({ mensagem: naoAutorizado});
   }
 
   const token = authorization.split(' ')[1];
@@ -14,23 +15,25 @@ const autenticaLogin = async (req, res, next) => {
   try {
     const { id } = jwt.verify(token, senhaJwt);
 
-    const { rows, rowCount } = await knex
+    const rows = await knex
       .select('*')
       .from('usuarios')
       .where({ id });
 
-    if (rowCount === 0) {
-      return res.status(401).json({ mensagem: "Não autorizado" });
+    if (rows.length === 0) {
+      return res.status(401).json({ mensagem: naoAutorizado });
     }
 
     const { senha, ...usuario } = rows[0];
 
+
     req.usuario = usuario;
+
 
     next();
   } catch (error) {
-    return res.status(401).json({ mensagem: "Não autorizado" });
+    return res.status(401).json({ mensagem: naoAutorizado });
   }
-}
+};
 
 module.exports = autenticaLogin;

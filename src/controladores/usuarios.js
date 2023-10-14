@@ -86,21 +86,20 @@ const cadastrarUsuario = async (req, res) => {
 };
 
 const detalharUsuario =async(req, res)=>{
-    const {id}=req.params
  
     try {
-         const usuario = await knex('usuarios').where({id}).first();
-         
-       if(!usuario){
-          return res.status(404).json({mensagem: naoEncontrado})
-       }
- 
-       return res.status(201).json(usuario)
- 
-     } catch (error) {
+        const{id, nome, email} = req.usuario;
+
+        if(!id){
+            return res.status(404).json({mensagem: naoEncontrado})
+        }
+
+        return res.status(200).json({id, nome, email});
+     
+      } catch (error) {
          return res.status(500).json({ mensagem: error.message })
      }
- };
+ }
 
 const editarUsuario = async (req, res) => {
     const { id } = req.usuario;
