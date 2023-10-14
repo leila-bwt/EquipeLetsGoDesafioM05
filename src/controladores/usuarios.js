@@ -1,7 +1,7 @@
 const knex = require("../conexao")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const senhaJwt = require("../senhaJwt")
+
 const { errorCampo, emailExiste, erroServidor } = require("../errors")
 
 const cadastrarUsuario = async (req, res) => {
@@ -51,7 +51,6 @@ const login = async (req, res) => {
             return res.status(400).json({ mensagem: 'Todos os campos devem ser preenchidos' });
         }
 
-        const rows = await knex
             .select('*')
             .from('usuarios')
             .where({ email });
