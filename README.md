@@ -8,7 +8,17 @@
 - Nodemon
 - Insomnia
 - Postgres
-- Beekeper
+- Beekeeper
+
+
+
+<div align="center">
+     <img src="https://github.com/leila-bwt/desafio-backend-m02-b2bt05/assets/108028195/c8c29bd0-c843-4cb8-9b20-9d1d8ed220b4" alt="javascript" height="50" width="40"/>&nbsp;
+  <img src="https://github.com/leila-bwt/desafio-backend-m02-b2bt05/assets/108028195/190429a3-c73f-4511-acd5-81c587a98842" alt="node.js" height="45" width="40"/>&nbsp;
+  <img src="https://github.com/leila-bwt/desafio-backend-m02-b2bt05/assets/108028195/653d97ba-8b6a-4280-bf00-9d2b6a196374" alt="insomnia" height="40" width="40"/>&nbsp;
+  <img src="https://github.com/leila-bwt/DesafioII_API_REST_Cubos_Academi/assets/108028195/224daf50-36f6-457b-8d71-f80b3c6d0b96" alt="postgres" height="40" width="40"/>&nbsp;
+     <img src="https://github.com/leila-bwt/desafio-backend-m02-b2bt05/assets/108028195/defd1a31-c91f-4a01-927d-6a968ea4c5d0" alt="git" height="40" width="40"/>&nbsp;
+</div>
 
 ## Como Executar o Projeto
 
