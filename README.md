@@ -6,7 +6,6 @@
 - npm (gerenciador de pacotes do Node.js)
 - Express.js
 - Nodemon
-- Postman
 - Insomnia
 - Postgres
 - Beekeper
@@ -14,10 +13,10 @@
 ## Como Executar o Projeto
 
 - `npm init` ou `npm init -y` : inicia o package.json;
-- `npm lodash` : instalador de pacotes para implementar o codigo;
+- `npm pg`: conexão com banco de dados PostgreSQL;
 - `.gitignore` : arquivos que serão ignorados durante o envio para o gitHub
 
-- `npm run dev` script ("nodemon ./src/index.js") usado para chamar o nodemon que foi instalado com `npm install -D nodemon` para usar somente como depedência.
+- `npm run start` script ("node ./src/index.js") usado para chamar o nodemon que foi instalado com `npm install -D nodemon` para usar somente como depedência.
 
 ## Resumo das atividades realizadas 
 
@@ -40,6 +39,8 @@ senha
 
 id (Chave primária)
 descricao
+
+
 Listar Categorias
 
 ###  Rota: `GET /categoria`
@@ -55,6 +56,8 @@ Brinquedos
 Moda
 Bebê
 Games
+
+
 Cadastrar Usuário
 
 ### Rota: `POST /usuario`
@@ -66,6 +69,8 @@ A senha é criptografada usando um algoritmo de criptografia confiável.
 O campo email no banco de dados deve ser único, evitando que dois usuários tenham o mesmo endereço de e-mail.
 Efetuar Login do Usuário
 
+
+
 ### Rota: `POST /login`
 
 Essa rota possibilita que um usuário cadastrado faça o login no sistema. Os critérios de aceitação são os seguintes:
@@ -74,27 +79,29 @@ Validação do e-mail e da senha para o usuário em questão.
 Geração de um token de autenticação para o usuário.
 A partir deste ponto, todas as funcionalidades (endpoints) requerem um token de autenticação do usuário logado, que deve ser enviado no header no formato Bearer Token. Portanto, em cada funcionalidade, a validação do token informado é necessária.
 
-Detalhar Perfil do Usuário Logado
 
-###  Rota: `GET /perfil`
+
+Detalhar Perfil do Usuário Logado
+###  Rota: `GET /usuario`
 
 Essa rota permite ao usuário logado visualizar o seu perfil no sistema.
 
-Editar Perfil do Usuário Logado
 
-### Rota: `PUT /perfil`
+Editar Perfil do Usuário Logado
+### Rota: `PUT /usuario`
 
 Essa rota permite ao usuário logado editar as informações do seu perfil no sistema.
+
 
 ### Efetuar Deploy da Aplicação
 
 Essa é uma tarefa que deve ser realizada para disponibilizar a aplicação em um ambiente de produção.
-- Link do Deploy: 
+- Link do Deploy: https://app.cyclic.sh/#/deploy/leila-bwt/EquipeLetsGoDesafioM05
 
 ## Integrantes do Grupo
 
-- Leila Borges
-- Stephanie Feliciano
-- Sthefany
-- Glaudia
-- Maria Stephanie
+- Leila Borges - https://github.com/leila-bwt
+- Stephanie Feliciano - https://github.com/Stephanie-Feliciano
+- Sthefany Silva - https://github.com/sthefany0011
+- Glaudia Almeida - https://github.com/glaudiaalmeida
+- Stephanie Rodrigues  - https://github.com/sstephanier
