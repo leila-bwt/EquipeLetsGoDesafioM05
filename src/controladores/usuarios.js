@@ -11,7 +11,7 @@ const cadastrarUsuario = async (req, res) => {
       try {
 
         if (!nome || !email || !senha) {
-            return res.status(400).json({ mensagem: 'Todos os campos devem ser preenchidos.' });
+            return res.status(400).json({ mensagem: erroCampo });
         }
     
         const emailCadastrado = await knex('usuarios').where('email', email).first();
@@ -41,7 +41,6 @@ const cadastrarUsuario = async (req, res) => {
             return res.status(201).json(usuario);
         }
     } catch (error) {
-        console.log(error.message);
         return res.status(500).json({ mensagem: erroServidor });
     }
 }
@@ -80,7 +79,6 @@ const cadastrarUsuario = async (req, res) => {
             token,
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ mensagem: erroServidor });
     }
 };
@@ -129,7 +127,6 @@ const editarUsuario = async (req, res) => {
         return res.status(204).send();
 
     } catch (error) {
-        console.log(error.message);
         return res.status(500).json({ mensagem: erroServidor });
     }
 };
