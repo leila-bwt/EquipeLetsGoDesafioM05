@@ -72,12 +72,12 @@ const editarCliente = async (req, res) => {
         
         const emailExiste = await knex("clientes").where("id", "<>",id).where("email", email).first();
         if (emailExiste) {
-              return res.status(400).json({ mensagem: emailExisteNaBase }); //As mensagens de erro predefinidas não funcionaram aqui
+              return res.status(400).json({ mensagem: emailExisteNaBase });
           }
   
         const cpfExiste = await knex("clientes").where("id","<>", id).where("cpf", cpf).first();
         if (cpfExiste) {
-              return res.status(400).json({ mensagem: cpfExisteNaBase }); //As mensagens de erro predefinidas não funcionaram aqui
+              return res.status(400).json({ mensagem: cpfExisteNaBase });
           }
 
        
