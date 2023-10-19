@@ -4,7 +4,7 @@ const { cadastrarUsuario, login, editarUsuario, detalharUsuario } = require('./c
 
 const autenticaLogin = require('./intermediario/autenticaLogin');
 const { listarCategorias } = require('./controladores/categorias');
-const { cadastrarProdutos, obterProdutoPorId } = require('./controladores/produtos');
+const { cadastrarProdutos, obterProdutoId } = require('./controladores/produtos');
 
 const rotas = express();
 
@@ -20,6 +20,6 @@ rotas.put('/usuario', editarUsuario);
 
 rotas.post('/produtos', cadastrarProdutos);
 
-rotas.get('/produto/:id', obterProdutoPorId)
+rotas.get('/produto/:id', obterProdutoId)
 
 module.exports = rotas;

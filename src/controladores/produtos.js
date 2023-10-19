@@ -46,7 +46,7 @@ const cadastrarProdutos = async (req, res) => {
 };
 
 
-const obterProdutoPorId = async (req, res) => {
+const obterProdutoId = async (req, res) => {
   const { id } = req.params
 
   try {
@@ -67,5 +67,5 @@ const obterProdutoPorId = async (req, res) => {
 
 module.exports = {
   cadastrarProdutos,
-  obterProdutoPorId
+  obterProdutoId
 };
