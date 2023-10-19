@@ -7,7 +7,7 @@ const { listarCategorias } = require('./controladores/categorias');
 const {cadastrarProdutos} = require('./controladores/produtos');
 
 const rotas = express();
-rotas.post('/produtos', cadastrarProdutos);
+
 rotas.get('/categoria', listarCategorias);
 
 rotas.post('/usuario', cadastrarUsuario);
