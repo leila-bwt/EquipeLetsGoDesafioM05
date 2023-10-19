@@ -1,10 +1,10 @@
 const express = require('express');
 
-const { cadastrarUsuario, login, editarUsuario, detalharUsuario} = require('./controladores/usuarios');
+const { cadastrarUsuario, login, editarUsuario, detalharUsuario } = require('./controladores/usuarios');
 
 const autenticaLogin = require('./intermediario/autenticaLogin');
 const { listarCategorias } = require('./controladores/categorias');
-const {cadastrarProdutos} = require('./controladores/produtos');
+const { cadastrarProdutos, obterProdutoPorId } = require('./controladores/produtos');
 
 const rotas = express();
 
@@ -19,5 +19,7 @@ rotas.get('/usuario', detalharUsuario);
 rotas.put('/usuario', editarUsuario);
 
 rotas.post('/produtos', cadastrarProdutos);
+
+rotas.get('/produto/:id', obterProdutoPorId)
 
 module.exports = rotas;
