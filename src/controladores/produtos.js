@@ -45,6 +45,27 @@ const cadastrarProdutos = async (req, res) => {
   }
 };
 
+
+const obterProdutoId = async (req, res) => {
+  const { id } = req.params
+
+  try {
+
+    const produto = await knex('produtos').where('id', id).first();
+
+    if (!produto) {
+      return res.status(404).json({ mensagem: naoEncontrado });
+    }
+
+    return res.status(200).json(produto);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensagem: erroServidor });
+  }
+}
+
+
 module.exports = {
   cadastrarProdutos,
+  obterProdutoId
 };
