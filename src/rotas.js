@@ -4,8 +4,10 @@ const { cadastrarUsuario, login, editarUsuario, detalharUsuario } = require('./c
 
 const autenticaLogin = require('./intermediario/autenticaLogin');
 const { listarCategorias } = require('./controladores/categorias');
-const { cadastrarProdutos, obterProdutoId } = require('./controladores/produtos');
+
 const { cadastrarCliente, editarCliente } = require('./controladores/clientes');
+
+const { cadastrarProdutos, editarProduto, obterProdutoId } = require('./controladores/produtos');
 
 const rotas = express();
 
@@ -20,6 +22,7 @@ rotas.get('/usuario', detalharUsuario);
 rotas.put('/usuario', editarUsuario);
 
 rotas.post('/produtos', cadastrarProdutos);
+rotas.put('/produto/:id', editarProduto)
 
 rotas.get('/produto/:id', obterProdutoId)
 
