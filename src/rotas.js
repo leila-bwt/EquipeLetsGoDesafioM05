@@ -1,14 +1,12 @@
 const express = require("express");
 
-const {
-  cadastrarUsuario,
-  login,
-  editarUsuario,
-  detalharUsuario,
-} = require("./controladores/usuarios");
+const {cadastrarUsuario,login} = require("./controladores/usuarios");
+const { listarCategorias } = require("./controladores/categorias");
 
 const autenticaLogin = require("./intermediario/autenticaLogin");
-const { listarCategorias } = require("./controladores/categorias");
+
+const {  editarUsuario, detalharUsuario} = require ("./controladores/usuarios");
+
 
 const { cadastrarCliente,
        editarCliente,
