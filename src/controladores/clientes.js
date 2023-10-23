@@ -3,7 +3,19 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const senhaJwt = require("../senhaJwt");
 
-const { erroCampo, emailExisteNaBase, erroServidor, emailInvalido, naoEncontrado, informacaoinvalida, cpfExisteNaBase } = require("../erro");
+
+const {
+    erroCampo,
+    emailExiste,
+    erroServidor,
+    emailInvalido,
+    naoEncontrado,
+    informacaoinvalida,
+  } = require("../erro");
+
+const senhaJwt = require("../senhaJwt");
+
+const { erroCampo, emailExiste, erroServidor, emailInvalido, naoEncontrado, informacaoinvalida, cpfExiste } = require("../erro");
 
 const cadastrarCliente = async (req, res) => {
     const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
@@ -21,13 +33,13 @@ const cadastrarCliente = async (req, res) => {
         const emailExiste = await knex("clientes").where("email", email).first();
 
         if (emailExiste) {
-            return res.status(400).json({ mensagem: emailExisteNaBase });
+            return res.status(400).json({ mensagem: emailExiste });
         }
 
         const cpfExiste = await knex("clientes").where("cpf", cpf).first();
         
         if (cpfExiste) {
-            return res.status(400).json({ mensagem: cpfExisteNaBase });
+            return res.status(400).json({ mensagem: cpfExiste });
         }
 
         const novoCliente = await knex("clientes").insert({
@@ -72,12 +84,12 @@ const editarCliente = async (req, res) => {
         
         const emailExiste = await knex("clientes").where("id", "<>",id).where("email", email).first();
         if (emailExiste) {
-              return res.status(400).json({ mensagem: emailExisteNaBase });
+              return res.status(400).json({ mensagem: emailExiste });
           }
   
         const cpfExiste = await knex("clientes").where("id","<>", id).where("cpf", cpf).first();
         if (cpfExiste) {
-              return res.status(400).json({ mensagem: cpfExisteNaBase });
+              return res.status(400).json({ mensagem: cpfExiste });
           }
 
        
@@ -100,7 +112,44 @@ const editarCliente = async (req, res) => {
         }
 }
 
+const  listarClientes = async (req, res) => {
+	try {
+		const response = await knex.select("*").from("clientes")
+		return res.status(201).json(response)
+	} catch (error) {
+		return console.log({ mensagem: error.message })
+	}
+}
+
+const detalharClienteId = async (req, res) => {
+    try {
+      const {
+         id ,
+        nome,
+        email,
+        cpf ,
+        cep ,
+        rua ,
+        numero ,
+        bairro ,
+        cidade ,
+        estado , } = req.usuario;
+  
+      if (!id) {
+        return res.status(404).json({ mensagem: naoEncontrado });
+      }
+  
+      return res.status(200).json({  id , nome,email,cpf ,cep ,rua ,numero ,bairro ,cidade , estado , });
+
+    } catch (error) {
+      return res.status(500).json({ mensagem: error.message });
+    }
+  };
+
 module.exports = {
     cadastrarCliente,
-    editarCliente
+    editarCliente,
+    listarClientes,
+    detalharClienteId
 }
+
