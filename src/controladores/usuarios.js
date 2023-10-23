@@ -14,7 +14,7 @@ const senhaJwt = require("../senhaJwt");
 
 const cadastrarUsuario = async (req, res) => {
   const { nome, email, senha } = req.body;
-
+ 
   try {
     if (!nome || !email || !senha) {
       return res.status(400).json({ mensagem: erroCampo });
@@ -23,7 +23,7 @@ const cadastrarUsuario = async (req, res) => {
     const emailCadastrado = await knex("usuarios")
       .where("email", email)
       .first();
-
+    
     if (emailCadastrado) {
       return res.status(400).json({ mensagem: emailExiste });
     }
