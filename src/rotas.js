@@ -7,7 +7,7 @@ const { listarCategorias } = require('./controladores/categorias');
 
 const { cadastrarCliente, editarCliente } = require('./controladores/clientes');
 
-const { cadastrarProdutos, editarProduto, obterProdutoId } = require('./controladores/produtos');
+const { cadastrarProdutos, editarProduto, obterProdutoId, excluirProdutoPorId } = require('./controladores/produtos');
 
 const rotas = express();
 
@@ -25,6 +25,7 @@ rotas.post('/produto', cadastrarProdutos);
 rotas.put('/produto/:id', editarProduto)
 
 rotas.get('/produto/:id', obterProdutoId)
+rotas.delete('/produto/:id', excluirProdutoPorId)
 
 rotas.put('/cliente/:id', editarCliente);
 rotas.post('/cliente', cadastrarCliente);
