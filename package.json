@@ -4,7 +4,7 @@
   "description": "Como entregar?\r  Crie um repositório público no GitHub de algum membro de equipe\r  Adicione os membros da equipe no repositório\r  Enviei o link desse repositório na plataforma\r Descrição do desafio\r Seja bem vindo(a) ao desafio do módulo 5.",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
