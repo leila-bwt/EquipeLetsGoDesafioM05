@@ -45,7 +45,7 @@ const cadastrarUsuario = async (req, res) => {
 
     if (novoUsuario && novoUsuario.length > 0) {
       const { senha: _, ...usuario } = novoUsuario[0];
-      return res.status(201).json(usuario);
+      return res.status(200).json(usuario);
     }
   } catch (error) {
     return res.status(500).json({ mensagem: erroServidor });
