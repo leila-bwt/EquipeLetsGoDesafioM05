@@ -1,4 +1,4 @@
-const emailExiste = "Email já cadastrado.";
+const emailExisteNaBase = "Email já cadastrado.";
 const emailInvalido = "O campo email deve ser preenchido com um email válido";
 const informacaoinvalida = "Informação invalida";
 const naoAutorizado =
@@ -7,9 +7,10 @@ const erroServidor = "Erro interno do servidor...";
 const erroCampo = "Todos os campos devem ser informados.";
 const naoEncontrado = "Sua requisição não foi encontrada.";
 const erroProduto = "Não foi possível cadastrar o produto.";
+const cpfExisteNaBase = "CPF já cadastrado.";
 
 module.exports = {
-  emailExiste,
+  emailExisteNaBase,
   naoAutorizado,
   erroServidor,
   erroCampo,
@@ -17,4 +18,5 @@ module.exports = {
   emailInvalido,
   informacaoinvalida,
   erroProduto,
+  cpfExisteNaBase
 };
