@@ -1,8 +1,4 @@
 const knex = require("../conexao");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const senhaJwt = require("../senhaJwt");
-
 
 const {
     erroCampo,
@@ -10,12 +6,7 @@ const {
     erroServidor,
     emailInvalido,
     naoEncontrado,
-    informacaoinvalida,
   } = require("../erro");
-
-const senhaJwt = require("../senhaJwt");
-
-const { erroCampo, emailExiste, erroServidor, emailInvalido, naoEncontrado, informacaoinvalida, cpfExiste } = require("../erro");
 
 const cadastrarCliente = async (req, res) => {
     const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;

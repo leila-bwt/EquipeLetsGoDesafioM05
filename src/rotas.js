@@ -15,12 +15,7 @@ const { cadastrarCliente,
        listarClientes,
        detalharClienteId } = require('./controladores/clientes');
 
-const {
-  cadastrarProdutos,
-  editarProduto,
-  obterProdutoId,
-  listarProdutos
-} = require("./controladores/produto");
+const {cadastrarProdutos,editarProduto,obterProdutoId,listarProdutos, excluirProdutoPorId} = require("./controladores/produtos");
 
 
 const rotas = express();
