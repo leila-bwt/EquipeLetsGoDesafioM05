@@ -1,24 +1,33 @@
 const express = require('express');
 
-const { cadastrarUsuario, login, editarUsuario, detalharUsuario } = require('./controladores/usuarios')
+const { cadastrarUsuario, login, editarUsuario, detalharUsuario } = require('./controladores/usuarios');
 
+const autenticaLogin = require('./intermediario/autenticaLogin');
+const { listarCategorias } = require('./controladores/categorias');
 
-const rotas = express()
+const { cadastrarCliente, editarCliente } = require('./controladores/clientes');
 
-rotas.get('/categoria', listarCategorias)
+const { cadastrarProdutos, editarProduto, obterProdutoId } = require('./controladores/produtos');
 
-rotas.post('/usuario', cadastrarUsuario)
+const rotas = express();
 
-rotas.post('/login', login)
-rotas.use(autenticaLogin)
+rotas.get('/categoria', listarCategorias);
 
-rotas.get('/usuario', detalharUsuario)
-rotas.put('/usuario', editarUsuario)
+rotas.post('/usuario', cadastrarUsuario);
 
-rotas.post('/produtos', cadastrarProdutos)
+rotas.post('/login', login);
+rotas.use(autenticaLogin);
+
+rotas.get('/usuario', detalharUsuario);
+rotas.put('/usuario', editarUsuario);
+
+rotas.post('/produto', cadastrarProdutos);
 rotas.put('/produto/:id', editarProduto)
 
 rotas.get('/produto/:id', obterProdutoId)
+
+rotas.put('/cliente/:id', editarCliente);
+rotas.post('/cliente', cadastrarCliente);
 
 
 
