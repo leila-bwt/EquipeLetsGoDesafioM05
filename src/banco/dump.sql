@@ -59,3 +59,25 @@ create table clientes(
     cidade VARCHAR(50) NOT NULL,
     estado VARCHAR(50) NOT NULL,
 );
+
+create table pedidos(
+    id SERIAL PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    observacao VARCHAR(255) NOT NULL,
+    valor_total INT NOT NULL,
+    FOREIGN KEY(cliente_id) REFERENCES clientes(id)
+);  
+
+create table pedido_produtos(
+    id SERIAL PRIMARY KEY,
+    pedido_id INT NOT NULL,
+    produto_id INT NOT NULL,
+    quantidade_produto INT NOT NULL,
+    valor_produto INT NOT NULL,
+    FOREIGN KEY(pedido_id) REFERENCES pedidos(id),
+    FOREIGN KEY(produto_id) REFERENCES produtos(id)
+);
+
+ALTER TABLE produtos(
+ADD produto_imagem BYTEA;
+)

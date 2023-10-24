@@ -14,7 +14,7 @@ const { cadastrarCliente,
        detalharClienteId } = require('./controladores/clientes');
 
 const {cadastrarProdutos,editarProduto,obterProdutoId,listarProdutos, excluirProdutoPorId} = require("./controladores/produtos");
-
+const {cadastrarPedido} = require("./controladores/pedidos");
 
 const rotas = express();
 
@@ -42,6 +42,8 @@ rotas.put('/cliente/:id', editarCliente);
 
 rotas.get('/cliente/', listarClientes)
 rotas.get('/cliente/:id', detalharClienteId)
+
+rotas.post('/pedido', cadastrarPedido);
 
 
 module.exports = rotas;
