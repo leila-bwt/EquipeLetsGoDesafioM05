@@ -19,12 +19,12 @@ const cadastrarProdutos = async (req, res) => {
     if (categoria.length === 0) {
       return res.status(400).json({ mensagem: naoEncontrado });
     }
-
+    
     const novoProduto = await knex("produtos")
       .insert({
         descricao,
         quantidade_estoque,
-        valor,
+        valor : Number(valor),
         categoria_id,
       })
       .returning("*");

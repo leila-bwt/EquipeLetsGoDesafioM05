@@ -8,60 +8,42 @@ const {
 
 const cadastrarPedido = async (req, res) => {
   const { cliente_id, observacao, pedido_produtos } = req.body;
+  const valorTotal = [];
+  let soma = 0;
 
   try {
-    if (!cliente_id || !observacao || !pedido_produtos) {
-      return res.status(400).json({ mensagem: erroCampo });
-    }
+  if (!cliente_id || !observacao || !pedido_produtos) {
+    return res.status(400).json({ mensagem: erroCampo });
+  }
 
-    const cliente = await knex("clientes").where("id", cliente_id);
+  const cliente = await knex("clientes").where("id", cliente_id);
 
-    if (!cliente) {
+  if (!cliente) {
+    return res.status(400).json({ mensagem: naoEncontrado });
+  }
+  for (let i = 0; i < pedido_produtos.length; i++) {
+    let produtosExistentes = await knex("produtos").where("id", pedido_produtos[i].produto_id);
+  
+    if(produtosExistentes.length === 0){
       return res.status(400).json({ mensagem: naoEncontrado });
     }
 
-    const produtosId = pedido_produtos.map((produto) => produto.produto_id); // pega o id dos produtos do pedido
+if(produtosExistentes[0].quantidade_estoque <= pedido_produtos[i].quantidade_produto){
 
-    const produtos = await knex("produtos").whereIn("id", produtosId); // verifica se os produtos existem no banco de dados
-
-    if (produtosId.length !== produtos.length) {
-      return res.status(400).json({ mensagem: naoEncontrado });
-    } // verifica estoque
-
-    for (const produto of pedido_produtos) {
-      const produtoExistente = produtos.find(
-        (item) => item.id === produto.produto_id
-      ); // verifica se o produto existe
-
-      if (
-        !produtoExistente ||
-        produtoExistente.quantidade_estoque < produto.quantidade_produto
-      ) {
-        return res.status(400).json({ mensagem: erroProduto });
-      }
-    }
-
-    const novoPedido = await knex("pedidos")
+    return res.status(400).json({ mensagem: erroProduto});
+}
+soma += (produtosExistentes[0].valor * pedido_produtos[i].quantidade_produto)
+console.log(cliente.id)
+  }
+  const novoPedido = await knex("pedidos")
       .insert({
         cliente_id,
         observacao,
+        valor_total: soma,
      })
-      .returning('*');
-      
+     .returning('*');
 
-    if (!novoPedido) {
-      return res.status(400).json({ mensagem: erroServidor });
-    }console.log(novoPedido)
-
-    for (const produto of pedido_produtos) {
-      await knex("pedidos_produtos").insert({
-        pedido_id: novoPedido[0].id,
-        produto_id: produto.produto_id,
-        quantidade_produto: produto.quantidade_produto,
-      });
-
-    }
-    return res.status(200).json(novoPedido[0]);
+  return res.status(201).json(novoPedido[0]);
   } catch (erro) {
     return res.status(500).json({ mensagem: erroServidor });
   }
