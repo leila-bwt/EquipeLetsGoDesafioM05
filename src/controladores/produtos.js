@@ -103,14 +103,29 @@ const obterProdutoId = async (req, res) => {
 
 const excluirProdutoPorId = async (req, res) => {
   const { id } = req.params
-
+  
   try {
-    const produto = await knex('produtos').where('id', id).first()
+    
+    const produtoExiste = await knex('produtos').where('id', id).first()
+   
 
-    if (!produto) {
-      return res.status(404).json({ mensagem: naoEncontrado })
+    if (!produtoExiste) {
+      return res.status(404).json({ mensagem: "Produto não existe "})
+    }
+    
+    const produto = await knex('pedido_produtos').where('produto_id', id).first()
+
+    
+    
+    if (produto) {
+      return res.status(404).json({ mensagem: "Produto está em um pedido aberto" })
     }
 
+    //VERIFICAR SE PRODUTO ESTÀ EM ALGUM PEDIDO
+    //- Validar se o produto que está sendo excluído 
+    //não está vinculado a nenhum pedido, caso estiver,
+    //não poderá ser excluído e deverá ser retornada uma mensagem indicando o motivo.
+    
     await knex('produtos').where('id', id).del();
 
     return res.status(204).json({ mensagem: 'Produto excluído com sucesso' })
