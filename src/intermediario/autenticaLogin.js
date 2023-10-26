@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const knex = require("../conexao");
-const senhaJwt = require("../senhaJwt");
 const { naoAutorizado } = require("../erro");
 
 const autenticaLogin = async (req, res, next) => {
@@ -13,7 +12,7 @@ const autenticaLogin = async (req, res, next) => {
   const token = authorization.split(' ')[1];
 
   try {
-    const { id } = jwt.verify(token, senhaJwt);
+    const { id } = jwt.verify(token, process.env.SENHA_JWT);
 
     const rows = await knex
       .select('*')
