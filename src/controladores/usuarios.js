@@ -1,6 +1,8 @@
 const knex = require("../conexao");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const transportador = require('../email')
+const compiladorHtml = require('../intermediario/compiladorHtml')
 
 const {
   erroCampo,
@@ -70,6 +72,18 @@ const login = async (req, res) => {
     if (!senhaCorreta) {
       return res.status(400).json({ mensagem: informacaoinvalida });
     }
+    
+    const html = await compiladorHtml('./src/templates/login.html', {
+      nomeusuario: usuario.nome,
+    })
+  
+
+    transportador.sendMail({
+      from: `${process.env.EMAIL_NAME} <${process.env.EMAIL_FROM}>`,
+      to: `${usuario.nome} <${usuario.email}>`,
+      subject: 'Tentativa de Login',
+      html,
+    })
 
     const token = jwt.sign({ id: usuario.id }, process.env.SENHA_JWT, { expiresIn: "8h" });
 
