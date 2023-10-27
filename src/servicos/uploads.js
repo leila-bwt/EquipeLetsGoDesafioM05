@@ -3,7 +3,7 @@ const aws = require('aws-sdk');
 const endpoint = aws.Endpoint(process.env.ENDPOINT_BACKBLAZE)
 
 const s3 = new aws.S3({
-    endpoint,
+    endpoint: endpoint,
     credentials:{
         accessKeyId: process.env.KEY_ID,
         secretAccessKey: process.env.APP_KEY
