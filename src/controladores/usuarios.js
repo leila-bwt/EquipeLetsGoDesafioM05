@@ -12,7 +12,6 @@ const {
   naoEncontrado,
   informacaoinvalida,
 } = require("../erro");
-const senhaJwt = require("../senhaJwt");
 
 const cadastrarUsuario = async (req, res) => {
   const { nome, email, senha } = req.body;
@@ -86,7 +85,7 @@ const login = async (req, res) => {
       html,
     })
 
-    const token = jwt.sign({ id: usuario.id }, senhaJwt, { expiresIn: "8h" });
+    const token = jwt.sign({ id: usuario.id }, process.env.SENHA_JWT, { expiresIn: "8h" });
 
     return res.status(200).json({
       usuario: {
