@@ -1,10 +1,12 @@
 const knex = require("../conexao");
+const { uploadImagem, excluirImagem} = require("../servicos/uploads");
 const {
   erroCampo,
   erroServidor,
   naoEncontrado,
   erroProduto,
 } = require("../erro");
+
 
 const cadastrarProdutos = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
@@ -35,16 +37,16 @@ const cadastrarProdutos = async (req, res) => {
       return res.status(400).json({ mensagem: erroProduto });
     }
 
-    const id = produto[0].id
+    const id = novoProduto[0].id
    
     const imagem = await uploadImagem(
-    `produtos/${id}/${originalname}`,
-    buffer,
-    mimetype
-    )
-
-    produto = await knex('produtos').update({
-      imagem: imagem.path
+      `produto/${id}/${originalname}`,
+      buffer,
+      mimetype
+  )
+   
+    novoProduto = await knex('produtos').update({
+      produto_imagem: imagem.path
     }).where({id}).returning('*')
 
 
@@ -193,12 +195,43 @@ const listarProdutos = async (req, res) => {
       mensagem: errosGerais.erroServidor,
     });
   }
-};
+}
+const excluirImagemProduto = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+      const produtoEncontrado = await knex('produtos').where({
+          id,
+          usuario_id: req.usuario.id
+      }).first();
+
+      if (!produtoEncontrado) {
+          return res.status(404).json('Produto não encontrado');
+      }
+
+      await excluirImagem(produtoEncontrado.imagem)
+
+      const produto = await knex('produtos')
+          .where({ id })
+          .update({
+              imagem: null
+          });
+
+      if (!produto) {
+          return res.status(400).json("O produto não foi atualizado");
+      }
+
+      return res.status(204).send()
+  } catch (error) {
+      return res.status(400).json(error.message);
+  }
+}
 
 module.exports = {
   cadastrarProdutos,
   editarProduto,
   obterProdutoId,
   excluirProdutoPorId,
-  listarProdutos
+  listarProdutos,
+  excluirImagemProduto
 };
