@@ -5,6 +5,7 @@ const { listarCategorias } = require("./controladores/categorias");
 
 const autenticaLogin = require("./intermediario/autenticaLogin");
 
+
 const { editarUsuario, detalharUsuario } = require("./controladores/usuarios");
 
 const {
@@ -22,10 +23,9 @@ const {
   excluirProdutoPorId,
 } = require("./controladores/produtos");
 const { cadastrarPedido } = require("./controladores/pedidos");
-const {
-  listarPedidos,
-  listarPedido,
-} = require("./controladores/listarPedidos");
+const {listarPedido} = require("./controladores/listarPedidos");
+
+const multer = require("./intermediario/multer");
 
 const rotas = express();
 
@@ -39,19 +39,21 @@ rotas.use(autenticaLogin);
 rotas.get("/usuario", detalharUsuario);
 rotas.put("/usuario", editarUsuario);
 
-rotas.post("/produto", cadastrarProdutos);
-rotas.put("/produto/:id", editarProduto);
+rotas.post("/produto", multer.single('produto_imagem'), cadastrarProdutos);
 
+rotas.put("/produto/:id", editarProduto);
 rotas.get("/produto/:id", obterProdutoId);
 rotas.get("/produto", listarProdutos);
+
 
 rotas.delete("/produto/:id", excluirProdutoPorId);
 
 rotas.post("/cliente", cadastrarCliente);
 rotas.put("/cliente/:id", editarCliente);
 
-rotas.get("/cliente/", listarClientes);
-rotas.get("/cliente/:id", detalharClienteId);
+rotas.get('/cliente/', listarClientes)
+rotas.get('/cliente/:id', detalharClienteId)
+
 
 rotas.post("/pedido", cadastrarPedido);
 rotas.get("/pedido", listarPedido);

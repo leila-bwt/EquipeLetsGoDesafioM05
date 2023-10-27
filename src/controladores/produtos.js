@@ -9,6 +9,8 @@ const {
 const cadastrarProdutos = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
 
+  const {originalname, buffer, mimetype} = req.file
+
   try {
     if (!descricao || !quantidade_estoque || !valor || !categoria_id) {
       return res.status(400).json({ mensagem: erroCampo });
@@ -20,7 +22,7 @@ const cadastrarProdutos = async (req, res) => {
       return res.status(400).json({ mensagem: naoEncontrado });
     }
     
-    const novoProduto = await knex("produtos")
+    let novoProduto = await knex("produtos")
       .insert({
         descricao,
         quantidade_estoque,
@@ -32,6 +34,19 @@ const cadastrarProdutos = async (req, res) => {
     if (!novoProduto) {
       return res.status(400).json({ mensagem: erroProduto });
     }
+
+    const id = produto[0].id
+   
+    const imagem = await uploadImagem(
+    `produtos/${id}/${originalname}`,
+    buffer,
+    mimetype
+    )
+
+    produto = await knex('produtos').update({
+      imagem: imagem.path
+    }).where({id}).returning('*')
+
 
     return res.status(200).json(novoProduto[0]);
   } catch (erro) {
@@ -103,14 +118,29 @@ const obterProdutoId = async (req, res) => {
 
 const excluirProdutoPorId = async (req, res) => {
   const { id } = req.params
-
+  
   try {
-    const produto = await knex('produtos').where('id', id).first()
+    
+    const produtoExiste = await knex('produtos').where('id', id).first()
+   
 
-    if (!produto) {
-      return res.status(404).json({ mensagem: naoEncontrado })
+    if (!produtoExiste) {
+      return res.status(404).json({ mensagem: "Produto não existe "})
+    }
+    
+    const produto = await knex('pedido_produtos').where('produto_id', id).first()
+
+    
+    
+    if (produto) {
+      return res.status(404).json({ mensagem: "Produto está em um pedido aberto" })
     }
 
+    //VERIFICAR SE PRODUTO ESTÀ EM ALGUM PEDIDO
+    //- Validar se o produto que está sendo excluído 
+    //não está vinculado a nenhum pedido, caso estiver,
+    //não poderá ser excluído e deverá ser retornada uma mensagem indicando o motivo.
+    
     await knex('produtos').where('id', id).del();
 
     return res.status(204).json({ mensagem: 'Produto excluído com sucesso' })
